@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -8,8 +10,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+  
     <style>
         body {
             font-family: 'Prompt', sans-serif;
@@ -49,15 +53,13 @@
         .time-slot {
             transition: all 0.2s;
         }
-        .time-slot:hover:not(.booked):not(.selected) {
+        .time-slot:hover:not(.booked) {
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .time-slot.booked {
             opacity: 0.6;
             cursor: not-allowed;
-            background-color: #e5e7eb;
-            color: #6b7280;
         }
         .stylist-card {
             transition: all 0.3s;
@@ -68,17 +70,6 @@
         .stylist-card.selected {
             border: 2px solid #3b82f6;
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
-        }
-        .date-cell:not(.disabled):hover {
-            background-color: #e0e7ff;
-        }
-        .date-cell.selected {
-            background-color: #4f46e5;
-            color: white;
-        }
-        .date-cell.disabled {
-            color: #d1d5db;
-            cursor: not-allowed;
         }
     </style>
 </head>
@@ -104,17 +95,15 @@
                         เลือกวันที่
                     </h2>
                     <div class="bg-gray-50 p-4 rounded-lg">
-                        <div class="flex items-center justify-between mb-3">
-                            <button id="prev-month" class="p-2 rounded-full hover:bg-gray-200 transition">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-                            </button>
-                            <h3 id="month-year" class="font-semibold text-indigo-700 text-lg"></h3>
-                            <button id="next-month" class="p-2 rounded-full hover:bg-gray-200 transition">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                            </button>
-                        </div>
                         <div id="calendar" class="grid grid-cols-7 gap-1 text-center">
-                             <!-- Calendar will be generated here -->
+                            <div class="font-medium text-indigo-800">อา</div>
+                            <div class="font-medium text-indigo-800">จ</div>
+                            <div class="font-medium text-indigo-800">อ</div>
+                            <div class="font-medium text-indigo-800">พ</div>
+                            <div class="font-medium text-indigo-800">พฤ</div>
+                            <div class="font-medium text-indigo-800">ศ</div>
+                            <div class="font-medium text-indigo-800">ส</div>
+                            <!-- วันที่จะถูกสร้างด้วย JavaScript -->
                         </div>
                     </div>
                 </div>
@@ -129,8 +118,7 @@
                     </h2>
                     <div class="bg-gray-50 p-4 rounded-lg">
                         <div id="time-slots" class="grid grid-cols-3 gap-2">
-                             <!-- Time slots will be generated here -->
-                             <p class="col-span-3 text-center text-gray-500">กรุณาเลือกวันที่ก่อน</p>
+                            <!-- เวลาจะถูกสร้างด้วย JavaScript -->
                         </div>
                     </div>
                 </div>
@@ -145,7 +133,7 @@
                     </h2>
                     <div class="bg-gray-50 p-4 rounded-lg">
                         <div id="stylists" class="space-y-3">
-                             <!-- Stylists will be generated here -->
+                            <!-- ช่างจะถูกสร้างด้วย JavaScript -->
                         </div>
                     </div>
                 </div>
@@ -153,7 +141,7 @@
         </div>
 
         <!-- ส่วนสรุปการจอง -->
-        <div class="bg-white rounded-xl shadow-lg p-6">
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
             <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -177,14 +165,16 @@
 
             <div class="mt-6">
                 <h3 class="text-lg font-medium text-gray-800 mb-3">ข้อมูลผู้จอง</h3>
-                 <div class="mt-4 mb-4 flex items-center space-x-3">
-                    <img id="user-image" class="w-12 h-12 rounded-full" src="https://placehold.co/48x48/EFEFEF/AAAAAA?text=User" alt="Profile" hidden>
-                    <span id="user-name" class="font-medium text-gray-700"></span>
-                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="mt-4 flex items-center space-x-3">
+  <img id="user-image" class="w-12 h-12 rounded-full" src="" alt="Profile" hidden>
+  <span id="user-name" class="font-medium"></span>
+</div>
+
+                  
                     <div>
                         <label class="block text-gray-700 mb-1" for="name">ชื่อ-นามสกุล</label>
-                        <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <input type="text" id="nameX" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
                     <div>
                         <label class="block text-gray-700 mb-1" for="phone">เบอร์โทรศัพท์</label>
@@ -194,7 +184,7 @@
             </div>
 
             <div class="mt-8 text-center">
-                <button id="book-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105 flex items-center justify-center mx-auto shadow-lg hover:shadow-xl">
+                <button id="book-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105 flex items-center justify-center mx-auto">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
@@ -205,340 +195,246 @@
     </div>
 
 <script>
-$(document).ready(function() {
-    // --- CONFIGURATION ---
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx52ZKKxS6PolW-PYwtgF2dsf9ALvgo7qVjv3PGSTyT-pLzR_Va1VvTiESC2Glz8-_x3g/exec';
-    const BOOKINGS_URL = 'https://opensheet.elk.sh/1zSBH4wAe8MI8GMVGjCKvch9HfVuY9L7yJlBwqyYZxwg/Bookings';
-    // IMPORTANT: Replace with your actual LIFF ID
-    const LIFF_ID = "2006600165-K2BXpmPO"; 
+  // URLs
+  const SCRIPT_URL   = 'https://script.google.com/macros/s/xxx/exec';
+  const BOOKINGS_URL = 'https://opensheet.elk.sh/xxx/Bookings';
+  const LIFF_ID = '2006600165-K2BXpmPO';
 
-    const STYLISTS = [
-        { id: 1, name: 'คุณเอ', specialty: 'ตัดผมชาย', experience: '5 ปี', avatar: 'A' },
-        { id: 2, name: 'คุณบี', specialty: 'ตัดผมหญิง', experience: '7 ปี', avatar: 'B' },
-        { id: 3, name: 'คุณซี', specialty: 'ทำสีผม', experience: '3 ปี', avatar: 'C' }
-    ];
 
-    // --- STATE VARIABLES ---
-    let existingBookings = [];
-    let selectedDate = null;
-    let selectedTime = null;
-    let selectedStylist = null;
-    let currentDate = new Date();
+  // สตอร์ข้อมูลการจองที่ดึงมาจาก JSON
+  let existingBookings = [];
 
-    // --- API & DATA FUNCTIONS ---
-    function loadBookings() {
-        showLoading();
-        return fetch(BOOKINGS_URL)
-            .then(res => res.json())
-            .then(data => {
-                existingBookings = data.map(b => ({
-                    date: b.Date,
-                    time: b.Time,
-                    stylistId: Number(b.StylistID)
-                }));
-            })
-            .catch(err => {
-                console.error('Error loading bookings:', err);
-                Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดข้อมูลการจองได้', 'error');
-            })
-            .finally(hideLoading);
+  // ข้อมูลช่าง
+  const stylists = [
+    { id: 1, name: 'คุณเอ', specialty: 'ตัดผมชาย', experience: '5 ปี', avatar: 'M' },
+    { id: 2, name: 'คุณบี', specialty: 'ตัดผมหญิง', experience: '7 ปี', avatar: 'F' },
+    { id: 3, name: 'คุณซี', specialty: 'ทำสีผม', experience: '3 ปี', avatar: 'M' }
+  ];
+
+  // ตัวแปรสถานะการเลือก
+  let selectedDate    = null;
+  let selectedTime    = null;
+  let selectedStylist = null;
+
+  // ดึงข้อมูลการจองจาก JSON
+  function loadBookings() {
+    return fetch(BOOKINGS_URL)
+      .then(res => res.json())
+      .then(data => {
+        existingBookings = data.map(b => ({
+          date:      b.Date,
+          time:      b.Time,
+          stylistId: Number(b.StylistID)
+        }));
+      })
+      .catch(err => console.error('Error loading bookings:', err));
+  }
+
+  // เก็บ booking ใหม่ลง sheet (ใช้ no-cors)
+  function saveBooking(payload) {
+    return fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  }
+
+  // ตรวจสอบว่าวัน+เวลา ถูกจองหรือไม่
+  function checkIfTimeIsBooked(date, time) {
+    return existingBookings.some(b => b.date === date && b.time === time);
+  }
+  function checkIfStylistIsBooked(date, time, id) {
+    return existingBookings.some(b =>
+      b.date === date && b.time === time && b.stylistId === id
+    );
+  }
+
+  // ฟอร์แมตวันที่
+  function formatDate(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const dt = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${dt}`;
+  }
+  function formatDateThai(s) {
+    if (!s) return '-';
+    return new Date(s).toLocaleDateString('th-TH', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+  }
+
+  // Loading overlay
+  function showLoading() { $('.loading-overlay').addClass('active'); }
+  function hideLoading() { $('.loading-overlay').removeClass('active'); }
+
+  // รีเซ็ต UI หลังจอง
+  function resetUI() {
+    $('#phone').val('');
+    $('#selected-date,#selected-time,#selected-stylist').text('-');
+    $('.date-cell, .time-slot, .stylist-card')
+      .removeClass('bg-indigo-500 text-white selected opacity-60 cursor-not-allowed');
+    selectedDate = selectedTime = selectedStylist = null;
+    generateCalendar();
+    generateTimeSlots();
+  }
+
+  // สร้างปฏิทิน
+  function generateCalendar() {
+    const today = new Date();
+    const calEl = $('#calendar');
+    calEl.find('div:gt(6)').remove();
+
+    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+    const start   = firstDay.getDay();
+    const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+
+    for (let i = 0; i < start; i++) calEl.append('<div class="p-2"></div>');
+    for (let d = 1; d <= lastDay; d++) {
+      const dt     = new Date(today.getFullYear(), today.getMonth(), d);
+      const dateStr= formatDate(dt);
+      const isPast = dt < new Date().setHours(0,0,0,0);
+      const cls    = isPast
+        ? 'p-2 text-gray-400'
+        : `date-cell p-2 cursor-pointer rounded-full hover:bg-indigo-100 ${selectedDate===dateStr?'bg-indigo-500 text-white':''}`;
+      calEl.append(`<div class="${cls}" data-date="${dateStr}">${d}</div>`);
     }
 
-    function saveBooking(payload) {
-        // Use 'fetch' for modern approach, 'no-cors' is tricky, better to handle response from Google Apps Script
-        const formData = new FormData();
-        for(const key in payload) {
-            formData.append(key, payload[key]);
-        }
-        
-        return fetch(SCRIPT_URL, {
-            method: 'POST',
-            body: formData,
-        });
-    }
-    
-    // --- HELPER FUNCTIONS ---
-    function checkIfStylistIsBooked(date, time, id) {
-        return existingBookings.some(b => b.date === date && b.time === time && b.stylistId === id);
-    }
+    $('.date-cell').off('click').on('click', function() {
+      $('.date-cell').removeClass('bg-indigo-500 text-white');
+      $(this).addClass('bg-indigo-500 text-white');
+      selectedDate = $(this).data('date');
+      $('#selected-date').text(formatDateThai(selectedDate));
+      generateTimeSlots();
+    });
+  }
 
-    function countBookingsForSlot(date, time) {
-        return existingBookings.filter(b => b.date === date && b.time === time).length;
-    }
+  // สร้างช่วงเวลา
+  function generateTimeSlots() {
+    const slots = ['09:00','10:00','11:00','13:00','14:00','15:00','16:00','17:00','18:00'];
+    const el = $('#time-slots').empty();
 
-    function formatDate(d) {
-        return d.toISOString().split('T')[0];
-    }
-
-    function formatDateThai(s) {
-        if (!s) return '-';
-        return new Date(s).toLocaleDateString('th-TH', {
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-        });
-    }
-
-    function showLoading() { $('.loading-overlay').addClass('active'); }
-    function hideLoading() { $('.loading-overlay').removeClass('active'); }
-    
-    function resetSelections() {
-        selectedDate = null;
-        selectedTime = null;
-        selectedStylist = null;
-
-        $('#selected-date, #selected-time, #selected-stylist').text('-');
-        $('.date-cell.selected').removeClass('selected bg-indigo-500 text-white');
-        
-        generateCalendar(currentDate);
-        generateTimeSlots();
-        updateAvailableStylists();
-    }
-
-    function resetForm() {
-        $('#phone').val('');
-        // Do not clear the name if logged in via LIFF
-        if (!window.liffUserId) {
-             $('#name').val('');
-        }
-        resetSelections();
-    }
-
-
-    // --- UI GENERATION ---
-    function generateCalendar() {
-        const calEl = $('#calendar').empty();
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth();
-
-        $('#month-year').text(
-            currentDate.toLocaleDateString('th-TH', { month: 'long', year: 'numeric' })
-        );
-
-        const firstDayOfMonth = new Date(year, month, 1).getDay();
-        const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
-        
-        const daysOfWeek = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'];
-        daysOfWeek.forEach(day => {
-            calEl.append(`<div class="font-medium text-indigo-800 text-sm">${day}</div>`);
-        });
-
-        for (let i = 0; i < firstDayOfMonth; i++) {
-            calEl.append('<div></div>');
-        }
-
-        for (let d = 1; d <= lastDateOfMonth; d++) {
-            const dt = new Date(year, month, d);
-            const dateStr = formatDate(dt);
-            const isPast = dt < today;
-            let cls = 'date-cell p-2 cursor-pointer rounded-full transition';
-            
-            if (isPast) {
-                cls += ' disabled';
-            }
-            if (selectedDate === dateStr) {
-                cls += ' selected bg-indigo-500 text-white';
-            }
-
-            calEl.append(`<div class="${cls}" data-date="${dateStr}">${d}</div>`);
-        }
-    }
-
-    function generateTimeSlots() {
-        const slots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
-        const el = $('#time-slots').empty();
-
-        if (!selectedDate) {
-             el.append('<p class="col-span-3 text-center text-gray-500">กรุณาเลือกวันที่ก่อน</p>');
-             return;
-        }
-
-        slots.forEach(time => {
-            const bookingsCount = countBookingsForSlot(selectedDate, time);
-            const isFullyBooked = bookingsCount >= STYLISTS.length;
-            
-            let cls = 'time-slot p-2 text-center rounded-lg border';
-            if (isFullyBooked) {
-                cls += ' booked';
-            } else {
-                 cls += ' bg-white hover:bg-indigo-100 cursor-pointer';
-            }
-            if(selectedTime === time){
-                cls += ' selected bg-indigo-500 text-white';
-            }
-
-            el.append(`
-                <div class="${cls}" data-time="${time}">
-                    ${time}
-                </div>
-            `);
-        });
-    }
-
-    function generateStylists() {
-        const el = $('#stylists').empty();
-        STYLISTS.forEach(s => {
-            const bg = ['bg-blue-500', 'bg-pink-500', 'bg-green-500'][s.id-1];
-            el.append(`
-                <div class="stylist-card p-3 bg-white rounded-lg shadow-sm flex items-center cursor-pointer" data-stylist-id="${s.id}">
-                    <div class="${bg} text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg mr-3 flex-shrink-0">
-                        ${s.avatar}
-                    </div>
-                    <div>
-                        <h3 class="font-medium">${s.name}</h3>
-                        <p class="text-sm text-gray-500">${s.specialty} • ${s.experience}</p>
-                    </div>
-                </div>
-            `);
-        });
-    }
-    
-    function updateAvailableStylists() {
-        $('.stylist-card').removeClass('opacity-40 cursor-not-allowed selected').css('border', 'none');
-        
-        if (!selectedDate || !selectedTime) {
-            return;
-        }
-        
-        STYLISTS.forEach(s => {
-            if (checkIfStylistIsBooked(selectedDate, selectedTime, s.id)) {
-                $(`.stylist-card[data-stylist-id="${s.id}"]`).addClass('opacity-40 cursor-not-allowed');
-            }
-        });
-
-        if(selectedStylist){
-             $(`.stylist-card[data-stylist-id="${selectedStylist.id}"]`).addClass('selected');
-        }
-    }
-
-
-    // --- EVENT HANDLERS ---
-    $('#calendar').on('click', '.date-cell:not(.disabled)', function() {
-        $('.date-cell').removeClass('selected bg-indigo-500 text-white');
-        $(this).addClass('selected bg-indigo-500 text-white');
-        
-        selectedDate = $(this).data('date');
-        selectedTime = null; // Reset time on new date selection
-        selectedStylist = null; // Reset stylist
-        
-        $('#selected-date').text(formatDateThai(selectedDate));
-        $('#selected-time').text('-');
-        $('#selected-stylist').text('-');
-        
-        generateTimeSlots();
-        updateAvailableStylists();
+    slots.forEach(time => {
+      const booked = checkIfTimeIsBooked(selectedDate, time);
+      const cls = booked
+        ? 'bg-gray-200 booked opacity-60 cursor-not-allowed'
+        : 'bg-white hover:bg-indigo-100 cursor-pointer';
+      el.append(`
+        <div class="time-slot p-2 text-center rounded-lg border ${cls}"
+             data-time="${time}">
+          ${time}
+        </div>
+      `);
     });
 
-    $('#time-slots').on('click', '.time-slot:not(.booked)', function() {
-        $('.time-slot').removeClass('selected bg-indigo-500 text-white');
-        $(this).addClass('selected bg-indigo-500 text-white');
-        
-        selectedTime = $(this).data('time');
-        selectedStylist = null; // Reset stylist
-        
-        $('#selected-time').text(selectedTime + ' น.');
-        $('#selected-stylist').text('-');
-
-        updateAvailableStylists();
+    $('.time-slot:not(.booked)').off('click').on('click', function() {
+      $('.time-slot').removeClass('bg-indigo-500 text-white');
+      $(this).addClass('bg-indigo-500 text-white');
+      selectedTime = $(this).data('time');
+      $('#selected-time').text(selectedTime + ' น.');
+      updateAvailableStylists();
     });
+  }
 
-    $('#stylists').on('click', '.stylist-card:not(.opacity-40)', function() {
-        if (!selectedDate || !selectedTime) {
-            return Swal.fire('กรุณาเลือกวันและเวลาก่อน', '', 'info');
-        }
-        
-        const id = $(this).data('stylist-id');
-        $('.stylist-card').removeClass('selected');
-        $(this).addClass('selected');
-        
-        selectedStylist = STYLISTS.find(x => x.id === id);
-        $('#selected-stylist').text(selectedStylist.name);
-    });
-    
-    $('#prev-month').on('click', function() {
-        currentDate.setMonth(currentDate.getMonth() - 1);
-        generateCalendar();
+  // สร้างรายการช่าง
+  function generateStylists() {
+    const el = $('#stylists').empty();
+    stylists.forEach(s => {
+      const bg = s.avatar==='M' ? 'bg-blue-500' : 'bg-pink-500';
+      el.append(`
+        <div class="stylist-card p-3 bg-white rounded-lg shadow-sm flex items-center cursor-pointer hover:bg-indigo-50"
+             data-stylist-id="${s.id}">
+          <div class="${bg} text-white w-10 h-10 rounded-full flex items-center justify-center font-bold mr-3">
+            ${s.avatar}
+          </div>
+          <div>
+            <h3 class="font-medium">${s.name}</h3>
+            <p class="text-sm text-gray-500">${s.specialty} • ${s.experience}</p>
+          </div>
+        </div>
+      `);
     });
 
-    $('#next-month').on('click', function() {
-        currentDate.setMonth(currentDate.getMonth() + 1);
-        generateCalendar();
+    $('.stylist-card').off('click').on('click', function() {
+      if (!selectedDate || !selectedTime) {
+        return Swal.fire('กรุณาเลือกวันและเวลาก่อน','','info');
+      }
+      const id = $(this).data('stylist-id');
+      if (checkIfStylistIsBooked(selectedDate, selectedTime, id)) {
+        return Swal.fire('ช่างไม่ว่าง','กรุณาเลือกช่างท่านอื่น','warning');
+      }
+      $('.stylist-card').removeClass('selected');
+      $(this).addClass('selected');
+      selectedStylist = stylists.find(x => x.id===id);
+      $('#selected-stylist').text(selectedStylist.name);
     });
-    
+  }
+
+  // อัพเดทสถานะช่างว่าง/ไม่ว่าง
+  function updateAvailableStylists() {
+    $('.stylist-card').removeClass('opacity-60 cursor-not-allowed selected');
+    $('#selected-stylist').text('-');
+    selectedStylist = null;
+    stylists.forEach(s => {
+      if (checkIfStylistIsBooked(selectedDate, selectedTime, s.id)) {
+        $(`.stylist-card[data-stylist-id="${s.id}"]`)
+          .addClass('opacity-60 cursor-not-allowed');
+      }
+    });
+  }
+
+  // เริ่มต้นเมื่อ document พร้อม
+  $(document).ready(function() {
+    Promise.all([
+      loadBookings(),
+      liff.init({ liffId: LIFF_ID})
+        .then(() => !liff.isLoggedIn() ? liff.login() : liff.getProfile())
+        .then(profile => {
+          window.liffUserId = profile.userId;
+          $('#user-image').attr('src', profile.pictureUrl).removeAttr('hidden');
+          $('#user-name').text(profile.displayName);
+        })
+    ]).then(() => {
+      generateCalendar();
+      generateTimeSlots();
+      generateStylists();
+    });
+
     $('#book-btn').click(function() {
-        const name = $('#name').val().trim();
-        const phone = $('#phone').val().trim();
+      const name    = $('#nameX').val()
+      const phone   = $('#phone').val().trim();
+      if (!selectedDate || !selectedTime || !selectedStylist) {
+        return Swal.fire('ข้อมูลไม่ครบ', 'กรุณาเลือกวัน เวลา และช่าง', 'warning');
+      }
+      if (!phone) {
+        return Swal.fire('กรุณากรอกเบอร์โทร', '', 'warning');
+      }
 
-        if (!selectedDate || !selectedTime || !selectedStylist) {
-            return Swal.fire('ข้อมูลไม่ครบ', 'กรุณาเลือก วันที่, เวลา และช่างตัดผม', 'warning');
-        }
-        if (!name || !phone) {
-            return Swal.fire('ข้อมูลไม่ครบ', 'กรุณากรอกชื่อและเบอร์โทรศัพท์', 'warning');
-        }
+      const payload = {
+        userId:    window.liffUserId,
+        name:      name,
+        phone:     phone,
+        date:      selectedDate,
+        time:      selectedTime,
+        stylistId: selectedStylist.id,
+        stylist:   selectedStylist.name
+      };
 
-        const payload = {
-            userId: window.liffUserId || 'N/A',
-            name: name,
-            phone: phone,
-            date: selectedDate,
-            time: selectedTime,
-            stylistId: selectedStylist.id,
-            stylist: selectedStylist.name
-        };
-
-        showLoading();
-        saveBooking(payload).then(response => {
-            // Add booking to local state immediately for instant UI update
-            existingBookings.push({ date: payload.date, time: payload.time, stylistId: payload.stylistId });
-            hideLoading();
-            Swal.fire('จองคิวสำเร็จ!', 'ขอบคุณที่ใช้บริการครับ', 'success').then(resetForm);
-        }).catch(err => {
-            hideLoading();
-            console.error(err);
-            Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่อีกครั้ง', 'error');
-        });
+      showLoading();
+      saveBooking(payload).then(() => {
+        // เพิ่มเข้าใน existingBookings เพื่อ disable ทันที
+        existingBookings.push(payload);
+        hideLoading();
+        Swal.fire('จองสำเร็จ!', '', 'success').then(resetUI);
+      }).catch(err => {
+        hideLoading();
+        console.error(err);
+        Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถบันทึกข้อมูลได้', 'error');
+      });
     });
-    
-    // --- INITIALIZATION ---
-    function main() {
-        loadBookings().then(() => {
-            generateCalendar();
-            generateStylists();
-            generateTimeSlots();
-        });
-
-        // Initialize LIFF separately so the app works even if LIFF fails
-        if(LIFF_ID && LIFF_ID !== "2006600165-K2BXpmPO"){
-            liff.init({ liffId: LIFF_ID })
-                .then(() => {
-                    if (!liff.isLoggedIn()) {
-                        liff.login();
-                    } else {
-                        return liff.getProfile();
-                    }
-                })
-                .then(profile => {
-                    if (profile) {
-                        window.liffUserId = profile.userId;
-                        $('#user-image').attr('src', profile.pictureUrl).removeAttr('hidden');
-                        $('#user-name').text(profile.displayName);
-                        $('#name').val(profile.displayName);
-                    }
-                })
-                .catch(err => {
-                    console.error('LIFF Error:', err);
-                    $('#user-name').text('(ไม่ได้เข้าสู่ระบบผ่าน LINE)');
-                });
-        } else {
-             console.warn("LIFF ID not set. App is running without LINE integration.");
-             $('#user-name').text('(ไม่ได้เข้าสู่ระบบผ่าน LINE)');
-        }
-    }
-
-    main();
-});
+  });
 </script>
+
 
 </body>
 </html>
