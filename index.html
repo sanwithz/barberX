@@ -385,7 +385,7 @@
   $(document).ready(function() {
     Promise.all([
       loadBookings(),
-      liff.init({ liffId: "xxx" })
+      liff.init({ liffId: "2006600165-K2BXpmPO" })
         .then(() => !liff.isLoggedIn() ? liff.login() : liff.getProfile())
         .then(profile => {
           window.liffUserId = profile.userId;
